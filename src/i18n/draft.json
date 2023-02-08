@@ -1,0 +1,4 @@
+{
+  "connect_calendar_message": "Conecte o seu calendário para verificar automaticamente as horas ocupadas e os novos eventos à medida em que são agendados.",
+  "connect_calendar_failed": "Falha ao se conectar ao Google, verifique se você habilitou as permissões de acesso ao Google Calendar."
+}

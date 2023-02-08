@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { Button, Text, TextInput } from '@call-ui/react'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
@@ -5,14 +6,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Form, FormAnnotation } from './styles'
-import { useRouter } from 'next/router'
 
 const claimUsernameFormSchema = z.object({
   username: z
     .string()
-    .min(3, { message: 'O usuário precisa ter ao menos 3 letras' })
+    .min(3, { message: 'Username must be at least 3 characters' })
     .regex(/^([a-z\\-]+)$/i, {
-      message: 'O usuário pode ter apenas letras e hifens',
+      message: 'Username must contain only letters and hyphen',
     })
     .transform((username) => username.toLowerCase()),
 })
@@ -20,6 +20,7 @@ const claimUsernameFormSchema = z.object({
 type ClaimUsernameFormData = z.infer<typeof claimUsernameFormSchema>
 
 export function ClaimUsernameForm() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -27,8 +28,6 @@ export function ClaimUsernameForm() {
   } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   })
-
-  const router = useRouter()
 
   async function handleClaimUsername(data: ClaimUsernameFormData) {
     const { username } = data
@@ -42,18 +41,18 @@ export function ClaimUsernameForm() {
         <TextInput
           size="sm"
           prefix="call.com/"
-          placeholder="seu-usuario"
+          placeholder="username"
           {...register('username')}
         />
         <Button size="sm" type="submit" disabled={isSubmitting}>
-          Reservar
-          <ArrowRight />
+          Next
+          <ArrowRight weight="bold" />
         </Button>
       </Form>
 
       <FormAnnotation>
         <Text size="sm">
-          {errors.username ? errors.username.message : 'Digite o seu usuário'}
+          {errors.username ? errors.username.message : 'Enter your username'}
         </Text>
       </FormAnnotation>
     </>

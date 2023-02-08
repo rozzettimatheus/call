@@ -1,18 +1,19 @@
 import Image from 'next/image'
 import { Heading, Text } from '@call-ui/react'
-import { Container, Hero, Preview } from './styles'
 
 import previewImg from '../../assets/app-preview.png'
+
+import { Container, Hero, Preview } from './styles'
 import { ClaimUsernameForm } from '../../components/ClaimUsernameForm'
 
 export default function Home() {
   return (
     <Container>
       <Hero>
-        <Heading size="3xl">Agendamento descomplicado</Heading>
+        <Heading size="3xl">Easy Event Scheduling</Heading>
         <Text size="xl">
-          Conecte seu calendário e permita que as pessoas marquem agendamentos
-          no seu tempo livre.
+          Connect your calendar and let people schedule events in your free
+          time.
         </Text>
 
         <ClaimUsernameForm />
@@ -21,7 +22,7 @@ export default function Home() {
       <Preview>
         <Image
           src={previewImg}
-          alt="Calendário simbolizando aplicação em funcionamento"
+          alt="Calendar representing the app functionalities"
           height={400}
           quality={100}
           priority

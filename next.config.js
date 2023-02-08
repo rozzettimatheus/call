@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   pageExtensions: [
-    // consider as pages only - user.page.tsx
+    // page suffix
     'page.tsx',
     'api.ts',
     'api.tsx',

@@ -1,9 +1,12 @@
-import { Button, Heading, MultiStep, Text, TextInput } from '@call-ui/react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { Button, Heading, MultiStep, Text, TextInput } from '@call-ui/react'
+import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import { api } from '@/lib/axios'
 
 import { Container, FormError, Header, RegisterForm } from './styles'
 
@@ -18,7 +21,9 @@ const registerFormSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'O nome precisa ter ao menos 3 letras' })
-    .regex(/^[A-Za-z]$/i, { message: 'O nome deve conter apenas letras' }),
+    .regex(/^[A-Za-z][A-Za-z]/i, {
+      message: 'O nome deve conter apenas letras',
+    }),
 })
 
 type RegisterFormData = z.infer<typeof registerFormSchema>
@@ -40,7 +45,17 @@ export default function Register() {
   }, [router.query?.username, setValue])
 
   async function handleRegister(data: RegisterFormData) {
-    console.log(data)
+    try {
+      await api.post('users', {
+        username: data.username,
+        name: data.name,
+      })
+
+      await router.push('/register/connect-calendar')
+    } catch (err) {
+      // TODO: add toast
+      console.log(err)
+    }
   }
 
   return (
@@ -68,13 +83,12 @@ export default function Register() {
         <label>
           <Text size="sm">Nome completo</Text>
           <TextInput placeholder="Seu nome" {...register('name')} />
-          {errors.name && <FormError>{errors.name.message}</FormError>}
+          {!!errors.name && <FormError>{errors.name.message}</FormError>}
         </label>
 
-        {/* incluir size - full / stack / flex /  */}
-        {/* incluir loading no Button */}
         <Button type="submit" disabled={isSubmitting}>
           Próximo passo
+          <ArrowRight />
         </Button>
       </RegisterForm>
     </Container>
